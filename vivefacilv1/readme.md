@@ -95,6 +95,10 @@ Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJKV1QiLCJzdWIiOiJhdXRoLXZpdmVsaWJyZSIsImF1
 .4TEH6XSzNwOQiCE-RssFCaPfRxxpuFS4hb6Doyq8G9vXdyJsIJDKyjfoIdBxXKBfpuS6X65fS7fPANKgZqo3Tg
 Ya nos permitiría mostrar el contenido si no le ponemos el user correcto, el password correcto o el token correcto nos da un código 403
 
+Se ha añadido en el proyecto en resources/ Evidencias
+
+        copias de pantalla del cliente REST y de la consla docker 
+
 
 
 
