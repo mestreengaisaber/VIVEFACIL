@@ -1,5 +1,7 @@
 package com.atam.vivefacilv1.application.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.util.List;
 import java.util.Set;
 
@@ -42,16 +44,21 @@ public class Usuario {
 	//si estuviera en bd lo recuperariamos con algo asi:
 	
 	  public static Usuario getById(String username) {
-		    // "secreto" => [BCrypt] => "$2a$10$56VCAiApLO8NQYeOPiu2De/EBC5RWrTZvLl7uoeC3r7iXinRR1iiq"
-		    var password = "$2a$10$56VCAiApLO8NQYeOPiu2De/EBC5RWrTZvLl7uoeC3r7iXinRR1iiq";
+
+		//TODO ese password lo podrimaos tener en el fichero de propiedades de spring
+		  String originalPassword = "password";
+		  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		  String hashedPassword = passwordEncoder.encode(originalPassword);
+
+		  var password = hashedPassword;
 		    Usuario authvivelibre1 = new Usuario(
-		        "authvivelibre1",
+					"auth-vivelibre",
 		        password,
 		        Set.of("USER")
 		    );
 
 		    Usuario authvivelibre2 = new Usuario(
-		        "authvivelibre2",
+					"auth-vivelibre2",
 		        password,
 		        Set.of("ADMIN")
 		    );
