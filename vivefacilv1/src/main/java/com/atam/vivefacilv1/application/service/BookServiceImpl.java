@@ -63,10 +63,10 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public BookMaxMinResponse filtrarLibrosMaxMinAvg() {
 
-		List<Book> books = Arrays.asList(cargarLibros());
+		List<Book> books = Arrays.asList(metodoiventado());
 
 		var avgBook = books.stream()
-				.flatMapToInt(bk -> IntStream.of(bk.getPages()))
+				.flatMapToInt(bk -> IntStram.of(bk.getPages()))
 				.average();
 
 		Optional<Book> maxBook = books.stream()
@@ -75,7 +75,10 @@ public class BookServiceImpl implements BookService {
 		Optional<Book> minBook = books.stream()
 				.min(Comparator.comparingInt(Book::getPages));
 
-		return new BookMaxMinResponse(maxBook.get(), minBook.get(), String.valueOf(avgBook));
+
+var libro =new BookMaxMinResponse(maxBook.get(), minBook.get(), String.valueOf(avgBook));
+
+		return libro;
 
 	}
 
