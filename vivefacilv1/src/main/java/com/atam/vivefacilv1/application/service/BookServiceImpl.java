@@ -49,15 +49,37 @@ public class BookServiceImpl implements BookService {
 	// Lists titles sorted alphabetically and counts how many books each author has written
 	@Override
 	public List<BookAuthorDoBookResponse> ordenarLibrosPorAuthorContarNumLibros() {
-		return Arrays.asList(cargarLibros()).stream()
-				.collect(Collectors.groupingBy(
-						book -> book.getAuthor().getName(),
-						Collectors.counting()
-				))
-				.entrySet().stream()
-				.sorted(Map.Entry.comparingByKey())
-				.map(entry -> new BookAuthorDoBookResponse(entry.getKey(), entry.getValue().intValue()))
-				.collect(Collectors.toList());
+		List<Book> books = Arrays.asList(cargarLibros());
+
+		List<String> titulos = books.stream()
+				.map(Book::getTitle)
+				.sorted().toList();
+
+
+		List<BookAuthorDoBookResponse> out = new ArrayList<>();
+		BookAuthorDoBookResponse outel = null;
+
+		String tituloAnterior = Strings.EMPTY;
+		int numCoincidencias =0;
+
+		if (libros !=null){
+						//Ese buscle es necesario? 
+						
+						//parece que no funcionara ya el review? 
+						
+						
+							for (String titulo: titulos){
+			if (titulo.equals(tituloAnterior)){
+				outel =new BookAuthorDoBookResponse(titulo, numCoincidencias+1);
+			}else{
+				if (outel!=null){
+					out.add(outel);
+				}
+				outel =new BookAuthorDoBookResponse(titulo, 1);
+				tituloAnterior = titulo;
+            }
+		}
+	return out;
 	}
 
 	@Override
