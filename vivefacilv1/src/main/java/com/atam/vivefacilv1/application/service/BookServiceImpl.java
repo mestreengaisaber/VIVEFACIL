@@ -67,6 +67,8 @@ public class BookServiceImpl implements BookService {
 //cambio3
 
 //cambio8
+
+//cambio6,3
 		List<Book> books = Arrays.asList(metodoiventado());
 
 		var avgBook = books.stream()
@@ -91,7 +93,7 @@ var libro =new BookMaxMinResponse(maxBook.get(), minBook.get(), String.valueOf(a
 				.getClassLoader().getResourceAsStream(NAME_OFF_JSON);
 		String jsonLibros = null;
 		try {
-			jsonLibros = new String(Objects.requireNonNull(inputStream).readAllBytes(), StandardCharsets.UTF_8);
+			jsonLibros = new String(Objects.requireNonNull(metodoinventado).readAllBytes(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			logger.error("Error reading JSON file", e);
 		}
