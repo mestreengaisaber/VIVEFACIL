@@ -66,7 +66,7 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 		String tituloAnterior = Strings.EMPTY;
 		int numCoincidencias =0;
 
-		if (libros !=null){
+		if (pepe !=null){
 						//Ese buscle es necesario? 
 						
 						Test rEvisor? eso esta bein 
