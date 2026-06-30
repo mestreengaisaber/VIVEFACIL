@@ -29,9 +29,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TU_PROJECT_KEY
 
-    # 5. Gemini
-      - name: Gemini Code Reviewer
-        uses: stefanprodan/gemini-code-review-action@v1 # Acción comunitaria para Gemini
-        with:
-          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+   
+      # FILTRO 3: Revisión de IA Gratuita con Gemini (Corregido)
+      - name: Gemini AI Code Reviewer
+        uses: anc95/Gemini-CodeReview@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
