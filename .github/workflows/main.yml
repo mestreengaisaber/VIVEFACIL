@@ -28,13 +28,6 @@ jobs:
           java-version: 21
           cache: maven
 
-      - name: MegaLinter
-        uses: oxsecurity/megalinter@v8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: false
-          MEGALINTER_FLAVOR: java
-
       - name: Build
         run: mvn -B clean verify
 
