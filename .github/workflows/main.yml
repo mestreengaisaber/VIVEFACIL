@@ -1,11 +1,11 @@
-name: Revisor IA Rapido
+name: Revisor de Sintaxis y Codigo
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  review:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -13,8 +13,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Review PR
-        uses: coderabbitai/ai-pr-review@v1
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/java@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: false # Solo revisará los archivos cambiados en tu PR
