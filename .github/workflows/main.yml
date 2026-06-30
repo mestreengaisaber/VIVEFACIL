@@ -30,9 +30,11 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TU_PROJECT_KEY
 
    
-      # FILTRO 3: Revisión de IA Gratuita con Gemini (Corregido)
-      - name: Gemini AI Code Reviewer
-        uses: anc95/Gemini-CodeReview@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+     # FILTRO 3: Alternativa multi-modelo configurada para Gemini
+      - name: AI Code Review
+        uses: dilshat/ai-code-review@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          api_key: ${{ secrets.GEMINI_API_KEY }}
+          ai_provider: 'google' # Le indica que use Google Gemini
+          model: 'gemini-2.5-flash' # El modelo gratuito y rápido de Google
