@@ -65,6 +65,8 @@ public class BookServiceImpl implements BookService {
 //vaya inventada como eso va a compilar? 
 
 //cambio3
+
+//cambio8
 		List<Book> books = Arrays.asList(metodoiventado());
 
 		var avgBook = books.stream()
