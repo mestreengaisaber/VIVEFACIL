@@ -21,17 +21,15 @@ import com.atam.vivefacilv1.application.dto.Book;
 
 
 
-
-
 @Service
 public class BookServiceImpl implements BookService {
 
 	private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
-private final static String NAME_OFF_JSON="books_nuevo.json";
+	private final static String NAME_OFF_JSON = "books_nuevo.json";
 
 	@Override
-// 1) Filtra los libros con más de 400 páginas y aquellos cuyo título contenga "Harry (400/ "Harry")
+	// Filters books with more than specified pages and whose title contains the filter string
 	public List<Book> filtrarLibros(int numPag, String FilterTitle) {
 		List<Book> books = Arrays.asList(cargarLibros());
 		return books.stream()
@@ -39,8 +37,7 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 				.collect(Collectors.toList());
 	}
 
-	/// Obtén los libros escritos por "J.K. Rowling"
-
+	// Get books written by a specific author
 	@Override
 	public List<Book> filtrarLibrosAutor(String writer) {
 		List<Book> books = Arrays.asList(cargarLibros());
@@ -49,10 +46,10 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 				.collect(Collectors.toList());
 	}
 
-	// Lista los títulos ordenados alfabéticamente y cuenta cuántos libros ha escrito cada autor
-
+	// Lists titles sorted alphabetically and counts how many books each author has written
 	@Override
 	public List<BookAuthorDoBookResponse> ordenarLibrosPorAuthorContarNumLibros() {
+<<<<<<< HEAD
 		List<Book> books = Arrays.asList(cargarLibros());
 
 		List<String> titulos = books.stream()
@@ -94,20 +91,27 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
             }
 		}
 	return out;
+=======
+		return Arrays.asList(cargarLibros()).stream()
+				.collect(Collectors.groupingBy(
+						book -> book.getAuthor().getName(),
+						Collectors.counting()
+				))
+				.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.map(entry -> new BookAuthorDoBookResponse(entry.getKey(), entry.getValue().intValue()))
+				.collect(Collectors.toList());
+>>>>>>> 8b3801b7c3c32bdbeacebab00dcb1fcdc9718ea1
 	}
-		}
-			
-
-	
-
 
 	@Override
 	public BookMaxMinResponse filtrarLibrosMaxMinAvg() {
 
 		List<Book> books = Arrays.asList(cargarLibros());
 
-		var avgBook =books.stream().
-				flatMapToInt(bk -> IntStream.of(bk.getPages())).average();
+		var avgBook = books.stream()
+				.flatMapToInt(bk -> IntStream.of(bk.getPages()))
+				.average();
 
 		Optional<Book> maxBook = books.stream()
 				.max(Comparator.comparingInt(Book::getPages));
@@ -119,19 +123,18 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 
 	}
 
-
-	Book[] cargarLibros(){
+	Book[] cargarLibros() {
 		InputStream inputStream = getClass()
 				.getClassLoader().getResourceAsStream(NAME_OFF_JSON);
 		String jsonLibros = null;
 		try {
 			jsonLibros = new String(Objects.requireNonNull(inputStream).readAllBytes(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			logger.error("I don't read json file", e);
+			logger.error("Error reading JSON file", e);
 		}
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		final Gson gson = gsonBuilder.create();
-        return gson.fromJson(jsonLibros, Book[].class);
+		return gson.fromJson(jsonLibros, Book[].class);
 	}
 
 }
