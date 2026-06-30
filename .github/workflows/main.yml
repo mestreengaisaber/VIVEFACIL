@@ -1,40 +1,49 @@
-name: Revisor de Sintaxis y Codigo
+name: Pull Request Validation
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
+
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
       - name: MegaLinter
-        uses: oxsecurity/megalinter/flavors/java@v8
+        uses: oxsecurity/megalinter@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: false # Solo revisará los archivos cambiados en tu PR
+          VALIDATE_ALL_CODEBASE: false
+          MEGALINTER_FLAVOR: java
 
-      # 4. FILTRO 2: SonarCloud (Seguridad profunda y Bugs técnicos)
-      - name: Build and analyze with SonarCloud
+      - name: Build
+        run: mvn -B clean verify
+
+      - name: SonarCloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TU_PROJECT_KEY
-
-   
-     # FILTRO 3: Alternativa multi-modelo configurada para Gemini
-      - name: AI Code Review
-        uses: dilshat/ai-code-review@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          api_key: ${{ secrets.GEMINI_API_KEY }}
-          ai_provider: 'google' # Le indica que use Google Gemini
-          model: 'gemini-2.5-flash' # El modelo gratuito y rápido de Google
+        run: >
+          mvn
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=TU_PROJECT_KEY
+          -Dsonar.organization=TU_ORGANIZATION
