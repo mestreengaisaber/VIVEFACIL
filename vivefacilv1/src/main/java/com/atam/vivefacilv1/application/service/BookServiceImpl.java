@@ -66,7 +66,10 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 		String tituloAnterior = Strings.EMPTY;
 		int numCoincidencias =0;
 
-		for (String titulo: titulos){
+		if (libros !=null){
+						
+						
+							for (String titulo: titulos){
 			if (titulo.equals(tituloAnterior)){
 				outel =new BookAuthorDoBookResponse(titulo, numCoincidencias+1);
 			}else{
@@ -79,6 +82,10 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 		}
 	return out;
 	}
+		}
+			
+
+	
 
 
 	@Override
