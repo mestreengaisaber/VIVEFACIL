@@ -1,4 +1,4 @@
-name: Ultimate Code Review Pipeline
+name: Ultimate Code Review
 
 on:
   pull_request:
