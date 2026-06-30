@@ -69,6 +69,8 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 		if (libros !=null){
 						//Ese buscle es necesario? 
 						
+						Test rEvisor? eso esta bein 
+						
 						//parece que no funcionara ya el review? 
 						
 						
