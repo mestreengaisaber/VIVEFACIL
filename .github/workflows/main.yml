@@ -1,18 +1,20 @@
-name: PR Agent
+name: Revisor IA Rapido
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  issue_comment:
-    types: [created]
 
 jobs:
-  pr_agent_job:
-    if: ${{ github.event.sender.type != 'Bot' }}
+  review:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
-      - name: PR Agent Action
-        uses: the-pr-agent/pr-agent@main
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Review PR
+        uses: coderabbitai/ai-pr-review@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
