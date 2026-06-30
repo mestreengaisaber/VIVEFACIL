@@ -1,0 +1,43 @@
+name: Ultimate Code Review Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  review-and-analyze:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Descargar el código
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Crucial para que todas las herramientas vean los cambios
+
+      # 2. Configurar entorno Java (Obligatorio para SonarCloud)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. FILTRO 1: MegaLinter (Formato, estilo, sintaxis rápida)
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/java@v8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: false
+
+      # 4. FILTRO 2: SonarCloud (Seguridad profunda y Bugs técnicos)
+      - name: Build and analyze with SonarCloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TU_PROJECT_KEY
+
+    # 5. Gemini
+      - name: Gemini Code Reviewer
+        uses: stefanprodan/gemini-code-review-action@v1 # Acción comunitaria para Gemini
+        with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
