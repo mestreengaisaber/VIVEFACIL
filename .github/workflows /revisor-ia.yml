@@ -1,22 +1,22 @@
-name: Revisor de Codigo IA Gratis
+name: Revisor IA Gratis
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
 
 jobs:
-  review:
+  pr_agent_job:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      issues: write
       pull-requests: write
+      contents: write
+    name: Run PR Agent
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: PR Agent Reviewer
-        uses: Codium-ai/pr-agent@main
+      - name: PR Agent Action
+        uses: qodo-ai/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_action_config.auto_review: "true"
