@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookMaxMinResponse filtrarLibrosMaxMinAvg() {
-
+//vaya inventada como eso va a compilar? 
 		List<Book> books = Arrays.asList(metodoiventado());
 
 		var avgBook = books.stream()
