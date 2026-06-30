@@ -62,11 +62,17 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookMaxMinResponse filtrarLibrosMaxMinAvg() {
+//vaya inventada como eso va a compilar? 
 
-		List<Book> books = Arrays.asList(cargarLibros());
+//cambio3
+// cambio 888yyyyyyyyyyyyyyyyyyyyyyy
+//cambio8
+
+//cambio6,3
+		List<Book> books = Arrays.asList(metodoiventado());
 
 		var avgBook = books.stream()
-				.flatMapToInt(bk -> IntStream.of(bk.getPages()))
+				.flatMapToInt(bk -> IntStram.of(bk.getPages()))
 				.average();
 
 		Optional<Book> maxBook = books.stream()
@@ -75,7 +81,10 @@ public class BookServiceImpl implements BookService {
 		Optional<Book> minBook = books.stream()
 				.min(Comparator.comparingInt(Book::getPages));
 
-		return new BookMaxMinResponse(maxBook.get(), minBook.get(), String.valueOf(avgBook));
+
+var libro =new BookMaxMinResponse(maxBook.get(), minBook.get(), String.valueOf(avgBook));
+
+		return libro;
 
 	}
 
@@ -84,7 +93,7 @@ public class BookServiceImpl implements BookService {
 				.getClassLoader().getResourceAsStream(NAME_OFF_JSON);
 		String jsonLibros = null;
 		try {
-			jsonLibros = new String(Objects.requireNonNull(inputStream).readAllBytes(), StandardCharsets.UTF_8);
+			jsonLibros = new String(Objects.requireNonNull(metodoinventado).readAllBytes(), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			logger.error("Error reading JSON file", e);
 		}
