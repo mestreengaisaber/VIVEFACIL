@@ -67,6 +67,7 @@ private final static String NAME_OFF_JSON="books_nuevo.json";
 		int numCoincidencias =0;
 
 		if (libros !=null){
+						//Ese buscle es necesario? 
 						
 						
 							for (String titulo: titulos){
