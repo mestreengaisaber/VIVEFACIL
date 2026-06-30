@@ -1,4 +1,4 @@
-name: Revisor IA Gratis
+name: PR Agent
 
 on:
   pull_request:
@@ -13,10 +13,8 @@ jobs:
       issues: write
       pull-requests: write
       contents: write
-    name: Run PR Agent
     steps:
       - name: PR Agent Action
-        uses: qodo-ai/pr-agent@main
+        uses: the-pr-agent/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          github_action_config.auto_review: "true"
